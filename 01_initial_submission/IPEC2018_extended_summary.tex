@@ -64,6 +64,7 @@
 \newcommand{\rotor}{^{r}}
 \newcommand{\stator}{^{s}}
 
+\newcommand{\tb}[1]{\textcolor{red}{TB: #1}}
 
 
 \bibliographystyle{unsrt}
@@ -133,10 +134,7 @@ v\else
 
 
 \begin{abstract}
-The paper considers the optimal choice of gains of proportional-resonant controllers. A converter, controlled in closed loop, but with out proportional resonant controllers, is modeled as a second order transfer function from reference to output. The error between reference and output is fed back through a set of N proportional resonant controller and is added to the reference. The root locus of the closed loop system is considered as a function of the proportional-resonant gains. To find the optimal choice of gains, we consider maximizing the damping of the mode with smallest damping. This corresponds to solving a nonlinear min-max problem. After linearization and reformulation, the problem is stated as a linear program.
-
-
-
+The paper considers the optimal choice of gains of proportional-resonant controllers. A converter, controlled in closed loop, but without proportional resonant controllers, is modeled as a second order transfer function from reference to output. The closed-loop system is amended by proportional-resonant control by feeding the error between reference and output back through a set of $N$ proportional resonant controller to subsequently alter the reference. The root locus of the closed loop system is considered as a function of the proportional-resonant gains. To find the optimal choice of gains, we consider maximizing the damping of the mode with smallest damping. This corresponds to solving a nonlinear min-max problem. After linearization and reformulation, the problem is stated as a linear program.
 \end{abstract}
 
 
@@ -158,29 +156,29 @@ The paper considers the optimal choice of gains of proportional-resonant control
 
 
 
-We consider a voltage source inverter which is assumed to operate in closed loop, but without PR controllers of integrators.  The voltage source inverter is modeled by a second order transfer function which maps the (sinusoidal) reference to the output.;
+We consider a voltage source inverter which is assumed to operate in closed loop, but without PR controllers of integrators.  The controlled voltage source inverter is modeled as a second order transfer function which maps the (sinusoidal) reference to the output,
 \begin{align}
 \label{eq:InvMdl}
-y = G(s)y_{\rm ref},\quad G(s) = \frac{\omega^2}{s^2+\xi\omega s + \omega^2}
+y = G(s)y_{\rm ref},\quad G(s) = \frac{\omega^2}{s^2+\xi\omega s + \omega^2}\,,
 \end{align}
-where $\omega$ is the natural frequency and $\xi$ is the damping of the (closed loop) inverter.
+where $\omega$ is the natural frequency and $\xi$ is the damping of the controlled inverter.
 
-We note that, with properly designed control, most inverter with resonant filters are expected to behave as second order systems in closed loop. Assuming a system model on the form~(\ref{eq:InvMdl}) is thus not restrictive.
+We note that, with properly designed control, most inverters are expected to behave as second order systems in closed loop. Assuming a system model on the form~(\ref{eq:InvMdl}) is thus not restrictive.
 
-
+\tb{Harmonics produced by the converter.}
 
 \subsection{Proportional-resonant controllers}
 
 To achieve offset free tracking of the sinusoidal reference $y_{\rm ref}$ and to reduce harmonics in the output, we consider adding proportional-resonant (PR) controllers~\cite{fukuda2001novel} to the system~(\ref{eq:InvMdl}).
 The PR controllers are added in a slower outer loop (see Fig.~\ref{fig:ControlStructure}) and adjust the reference according to
 \begin{align*}
-\tilde{y}_{\rm ref} = y_{\rm ref} + \sum_{n\in\{1,3,5,\dots\}}H_n(s)(y-y_{\rm ref})
+\tilde{y}_{\rm ref} = y_{\rm ref} + \sum_{n\in\{1,3,5,\dots, N\}}H_n(s)(y-y_{\rm ref})\,,
 \end{align*}
 where
 \begin{align*}
-H_n(s) = \frac{\lambda_ns}{s^2 - n\omega^2_0}
+H_n(s) = \frac{\lambda_ns}{s^2 - n\omega^2_0}\,,
 \end{align*}
-where the fundamental frequency $\omega_0$ is the frequency of the reference (typically corresponding to 50 or 60 Hz), and where $\lambda_n$ are the feedback gains of the PR controllers. These gains are tuning parameters who's value affect the transient response of the closed loop system.
+where the fundamental frequency $\omega_0$ is the frequency of the reference (typically corresponding to 50 or 60 Hz), and where $\lambda_n$ are the feedback gains of the PR controllers. These gains are tuning parameters whose value affect the transient response of the closed loop system.
 
 %-----------------------------------------
 \begin{figure}[!h]
@@ -196,24 +194,24 @@ where the fundamental frequency $\omega_0$ is the frequency of the reference (ty
 
 The order of the closed loop system dynamics is $2+2N$ where $N$ is the number of PR controllers added in the outer loop.
 
-
+\tb{Transfer function of closed-loop system}
 
 
 \section{Controller Gain Optimization}
-
+\tb{How about Problem Formulation as section header?}
 The PR gains $\lambda_n$ affect both the poles and zeros of the closed loop system. In the approach presented below, we focus on the poles and seek to maximize the damping of the (complex) pole pair which has the lowest damping.
 
-To clarify the approach we  consider an example: Consider the case where two PR controllers (with harmonics number $1$ and $3$) are included in the control loop. For this case the system has $6$ poles, and their position in the complex plane is determined by  two gains $\lambda_1$, $\lambda_3$.
+To clarify the approach we consider an example: Consider the case where two PR controllers (with harmonics number $1$ and $3$) are included in the control loop. For this case the system has $6$ poles, and their position in the complex plane is determined by  two gains $\lambda_1$, $\lambda_3$.
 
-We enumerate combinations of gains $\lambda_1$, $\lambda_3$ and plot the resulting poles, the results is shown by the green dots in Fig.~\ref{fig:PoleExample}. In this figure we also plot the poles obtained when both gains are small (close to zero), and the poles obtained with one particular choice of high gains. The poles obtained with low and high gains are shown by blue and red circles´, respectively.
+We enumerate combinations of gains $\lambda_1$, $\lambda_3$ and plot the resulting poles; the results are shown as the green dots in Fig.~\ref{fig:PoleExample}. In this figure we also plot the poles obtained when both gains are small (close to zero), and the poles obtained with one particular choice of high gains. The poles obtained with low and high gains are shown by blue and red circles, respectively.
 
-From Fig.~\ref{fig:PoleExample} it can be seen that one pole pairs moves to the right, closer to the imaginary line (and unstable domain), while the other two pole pairs move left. For sufficiently high gains, one pole pair become two purely real poles, one of which move left and the other move right, into the unstable domain.
+From Fig.~\ref{fig:PoleExample} it can be seen that one pole pair moves to the right, closer to the imaginary line (and unstable domain), while the other two pole pairs move left. For sufficiently high gains, one pole pair becomes two purely real poles, one of which moves left and the other moves right, into the unstable domain.
 %-----------------------------------------
 \begin{figure}[!h]
 \centering
 \includegraphics{fig/root_locus_2D}
 \caption{Poles of the closed loop system with $N=2$ PR controllers: The green points show poles for various combinations of gains $\lambda_1$,
-$\lambda_3$. Blue circles chow the poles for low gains. Red circle show poles for high gains. }
+$\lambda_3$. Blue circles show the poles for low gains. Red circle show poles for high gains. }
 \label{fig:PoleExample}
 \end{figure}
 %-----------------------------------------
@@ -222,16 +220,16 @@ $\lambda_3$. Blue circles chow the poles for low gains. Red circle show poles fo
 
 Since changes in one gain affects all poles, it is not obvious how to choose the gains optimally. Increase in one gain may make one pole pair ``more stable'', but may have negative effects one another pole pair.
 
-To address the problem of how to chose the PR gains, we propose to formulate a max-min optimization problem where we maximize the damping of the least damped pole. More precisely, we consider the angle between of the pole and the imaginary axis (assuming the pole is in the  open left hand plane);
+To address the problem of how to choose the PR gains, we propose to formulate a max-min optimization problem, where we maximize the damping of the least damped pole pair. More precisely, we consider the angle between the pole pair and the imaginary axis (assuming the pole is in the open left hand plane);
 \begin{align*}
 \alpha_i = \tan^{-1}(-{\rm real}(p_i) / {\rm imag}(p_i))
 \end{align*}
-where $p_i$ is a pole in the fourth quadrant. The problem we ideally ant to solve is
+where $p_i$ is a pole in the fourth quadrant. The problem we ideally want to solve is
 \begin{align}
 \label{eq:MaxMinProb}
 \max_{\lambda_1,\lambda_3,\dots\lambda_N}\min_{i\in \{1,3,\dots,N\}} \alpha_i(\lambda_1,\lambda_3,\dots\lambda_N).
 \end{align}
-We note that the angles $\alpha_i$ are dependent on the PR gains $\lambda_i$, and that as hte gains vary, different angles take on the role of being ``the smallest''.
+We note that the angles $\alpha_i$ are dependent on the PR gains $\lambda_i$, and that as the gains vary, different angles take on the role of being ``the smallest''.
 
 
 
