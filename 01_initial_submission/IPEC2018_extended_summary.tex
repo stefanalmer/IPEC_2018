@@ -166,6 +166,8 @@ where $\omega$ is the natural frequency and $\xi$ is the damping of the controll
 
 We note that, with properly designed control, most inverters are expected to behave as second order systems in closed loop. Assuming a system model on the form~(\ref{eq:InvMdl}) is thus not restrictive.
 
+\tb{Derivation of 2nd order system?}
+
 \tb{Harmonics produced by the converter.}
 
 \subsection{Proportional-resonant controllers}
@@ -179,6 +181,7 @@ where
 \begin{align*}
 H_n(s) = \frac{\lambda_ns}{s^2 - n\omega^2_0}\,,
 \end{align*}
+\tb{typo? $n^2$ instead of $n$?}
 where the fundamental frequency $\omega_0$ is the frequency of the reference (typically corresponding to 50 or 60 Hz), and where $\lambda_n$ are the feedback gains of the PR controllers. These gains are tuning parameters whose value affect the transient response of the closed loop system.
 
 %-----------------------------------------
@@ -193,10 +196,11 @@ where the fundamental frequency $\omega_0$ is the frequency of the reference (ty
 
 \subsection{Closed loop system}
 
-The order of the closed loop system dynamics is $2+2N$ where $N$ is the number of PR controllers added in the outer loop.
-
-\tb{Transfer function of closed-loop system}
-
+The order of the closed loop system dynamics is $2+2N$ where $N$ is the number of PR controllers added in the outer loop. The resulting closed-loop system can be stated as
+\begin{align}\label{eq:ClosedLoopTF}
+  y = \frac{G(s) - G(s) \sum_n H_n(s)}{I - G(s) \sum_n H_n(s)} y_{\rm ref}\,,
+\end{align}
+and by changing the gains $\lambda_i$, we influence the location of the poles and zeros of the closed-loop system.
 
 \section{Controller Gain Optimization}
 \tb{How about Problem Formulation as section header?}
