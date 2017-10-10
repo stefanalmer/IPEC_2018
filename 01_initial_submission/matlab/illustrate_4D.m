@@ -29,7 +29,7 @@ L = 0;      % lower bound of gains
 U = 1000;   % upper bound of gains
 
 % grid size of boxes
-h1 = 10; 	% step size dimension 1
+h1 = 25; 	% step size dimension 1
 h2 = 250;   % step size dimension 2
 h3 = 250;   % step size dimension 3
 h4 = 250;   % step size dimension 4
@@ -88,7 +88,7 @@ AllRoots = complex(AllRoots);
 for kk = 1:10
     ii = ceil(kk/2);
     kkRoots = reshape(AllRoots(:,:,:,:, kk), [nPoints*nPoints2*nPoints3*nPoints4, 1]);
-    plot(kkRoots, '.', 'color', [0+(ii-1)/(5-1)*0.5, 0.5+(ii-1)/(5-1)*0.5, 0], 'Markersize', 0.1)
+    plot(kkRoots, '.', 'color', [0+(ii-1)/(5-1)*0.5, 0.5+(ii-1)/(5-1)*0.5, 0], 'Markersize', 4)
 end
 
 
