@@ -28,8 +28,8 @@ w3 = 3*w1;
 L = 0;      % lower bound of gains
 U = 1000;   % upper bound of gains
 
-h1 = 10; % step size dimension 1
-h2 = 10;  % step size dimension 2
+h1 = 4; % step size dimension 1
+h2 = 4;  % step size dimension 2
 nPoints  = ((U-L)/h1);
 nPoints2 = ((U-L)/h2);
 dMat = zeros(nPoints, nPoints2, 3);
@@ -62,11 +62,11 @@ for kkk1 = 1:length(LV)
         rot(2) = rot(2) + 800 + 5000i;
         
         % calculate damping of each pole pair
-        if any(real(rot) > 0)
+        if any(real(rot) > 0) || any(imag(rot([1,3,5])) < 0)
             dMat( kkk1, kkk2, 1:3 ) = NaN;
         else
         for ii = 1:3
-            alpha = atan(-real(rot(2*ii-1))/imag(rot(2*ii-1)));
+            %alpha = atan(-real(rot(2*ii-1))/imag(rot(2*ii-1)));
             dMat( kkk1, kkk2, ii ) = atan(-real(rot(2*ii-1))/imag(rot(2*ii-1))); 
         end
         end
@@ -85,7 +85,7 @@ set(gcf, 'outerposition', figSize, 'PaperPositionMode', 'auto')
 dMat2 = min(dMat, [], 3);
 surf(LV, LV2, dMat2*180/pi);
 shading flat
-view([-135, 40])
+view([-75, 40])
 
 
 xlabel('$\lambda_1$')
@@ -96,7 +96,7 @@ set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 
 
 if (FB=='y' | FB=='Y')
-    matlabfrag('root_locus_2D_in_3D')
+    matlabfrag('root_locus_2D_in_3D', 'dpi', 300)
     movefile('root_locus_2D_in_3D.*', '../fig', 'f')
 end
 
