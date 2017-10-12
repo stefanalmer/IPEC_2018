@@ -323,12 +323,34 @@ C =
 \end{bmatrix}.
 \end{align*}
 %{\bf Put derivation in appendix}
-
+Linear programs can be solved efficiently with readily available software. 
 
 
 
 \section{Numerical Example}
 
+The approach for PR gain optimization described above was applied to a VSI with LC filter used in UPS applications. The UPS considered is a four-wire topology where the dynamics of the three phases are decoupled, due to the connection between filter and DC side neutral point. Due to the decoupling, we consider each of the three phases individually and
+design stabilizing controllers with proportional feedback. The closed loop system thus becomes a second order transfer function from voltage reference to output voltage on the form~(\ref{eq:InvMdl}).
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\psfrag{vg}{\footnotesize{$i_{\rm load}$}}
+\psfrag{x1}{\footnotesize{$i$}}
+\psfrag{x3}{\footnotesize{$v$}}
+\psfrag{Lfi}{\footnotesize{$L$}}
+\psfrag{Cf}{\footnotesize{$C$}}
+\psfrag{vdc/2}{\footnotesize{$v_{\rm dc}/2$}}
+\psfrag{+}{\tiny{$+$}}
+\scalebox{0.9}{
+\input{fig/VSC_LC_3ph.pstex_t}
+}
+%\includegraphics[width=8cm]{fig/VSC_LC_3ph}
+\caption{}
+\label{fig:UPS_LC}
+\end{figure}
+%-----------------------------------------
+
+The inner control loop is augmented with $N_{\rm PR} = 4$ PR controllers as described in Fig.~\ref{fig:ControlStructure}. 
 
 %-----------------------------------------
 \begin{figure}[!h]
