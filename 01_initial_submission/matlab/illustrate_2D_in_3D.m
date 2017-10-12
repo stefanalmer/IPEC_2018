@@ -83,14 +83,11 @@ end
 figure
 set(gcf, 'outerposition', figSize, 'PaperPositionMode', 'auto')
 dMat2 = min(dMat, [], 3);
-surf(LV, LV2, dMat2*180/pi);
-shading flat
-view([-75, 40])
-
-
+[C,h] = contour(LV, LV2, dMat2*180/pi, 'LevelList', [1, 3, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25]); 
+clabel(C, h, [1, 5, 10, 15, 20, 25], 'Fontsize', myFontSize, 'Interpreter', 'latex')
+grid on
 xlabel('$\lambda_1$')
 ylabel('$\lambda_3$')
-zlabel('damping [deg]')
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 
