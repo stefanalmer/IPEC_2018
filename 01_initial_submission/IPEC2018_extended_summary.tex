@@ -182,7 +182,7 @@ Our starting point is to consider a voltage source inverter (VSI) which is assum
 y = G(s)y_{\rm ref},\quad G(s) = \frac{\omega^2}{s^2+\xi\omega s + \omega^2}\,,
 \end{align}
 where $\omega$ is the natural frequency and $\xi$ is the damping of the controlled inverter. One example of a system which can be modeled as such,
-is a VSI with LC filter, %as the one shown in Figure~\ref{fig:VoltageSourceInverter}, 
+is a VSI with LC filter, %as the one shown in Figure~\ref{fig:VoltageSourceInverter},
 controlled in abc frame by a cascaded voltage-current control system comprising proportional controllers.
 We note that, with properly designed control, a VSI is expected to behave as second order systems in closed loop. Thus, assuming a system model of the form~(\ref{eq:InvMdl}) is not restrictive.
 
@@ -224,8 +224,8 @@ and by changing the gains $\lambda_n$, we influence the location of the poles an
 \subsection{Closed loop poles}
 The PR gains $\lambda_n$ affect both the poles and zeros of the closed loop system. In the design approach outlined below, we focus on the poles and seek to maximize the damping of the (complex) pole pair which has the lowest damping.
 
-To clarify the approach we consider an example: Consider the case where two PR controllers (with harmonics number $1$ and $3$) are included in the control loop. For this case the system has $6$ poles, and their position in the complex plane is determined by  two gains $\lambda_1$, $\lambda_3$.
-We enumerate combinations of gains $\lambda_1$, $\lambda_3$ and plot the resulting poles; the result is shown in Fig.~\ref{fig:PoleExample}. In this figure we also plot the poles obtained when both gains are close to zero (blue circles), and the poles obtained with one particular choice of high gains (red circles). 
+To clarify the approach we consider an example: Consider the case where two PR controllers (with harmonics number $1$ and $3$) are to be included in the control loop. For this case the system has $6$ poles, and their position in the complex plane is determined by  two gains $\lambda_1$, $\lambda_3$.
+We enumerate different combinations of gains $\lambda_1$, $\lambda_3$ and plot the resulting poles on the complex plane; the result is shown in Fig.~\ref{fig:PoleExample}. In this figure we also plot the poles obtained when both gains are close to zero (blue circles), and the poles obtained with one particular choice of higher gains (red circles).
 %The poles obtained with low and high gains are shown by blue and red circles, respectively.
 
 From Fig.~\ref{fig:PoleExample} it can be seen that one pole pair moves to the right, closer to the imaginary axis (and unstable domain), while the other two pole pairs move left. For sufficiently high gains, one pole pair becomes two purely real poles, one of which moves left and the other moves right, towards the unstable domain.
@@ -248,7 +248,7 @@ Since changes in one gain affects all poles, it is not obvious how to choose the
 
 
 \section{Problem Formulation}
-To address the problem of how to choose the PR gains, we propose to formulate a max-min optimization problem, where we maximize the damping of the least damped pole pair. More precisely, we consider the angle between the pole and the imaginary axis (assuming the pole is in the open left hand plane);
+To address the problem of how to choose the PR gains, we propose to formulate a max-min optimization problem, where we maximize the damping of the least damped pole pair. More precisely, we consider the angle between the pole and the imaginary axis (assuming the pole is in the open left half plane);
 \begin{align*}
 \alpha_i = \tan^{-1}(-{\rm real}(p_i) / {\rm imag}(p_i))
 \end{align*}
@@ -259,7 +259,7 @@ where $p_i$ is a pole in the fourth quadrant. The problem we ideally want to sol
 \end{align}
 with $i_{\rm max} = (N+3)/2$. We note that the angles $\alpha_i$ are dependent on the PR gains $\lambda_n$, and that as the gains vary, different angles take on the role of being ``the least damped''.
 
-%For one combination of PR gains, the resulting dampings $\alpha_i$ are indicated in Figure~\ref{fig:PoleExample}. 
+%For one combination of PR gains, the resulting dampings $\alpha_i$ are indicated in Figure~\ref{fig:PoleExample}.
 
 Figure~\ref{fig:DampingExample} shows $\min_{i\in\{1,2,3\}}\alpha_i$; the smallest damping of the three pole pairs as a function of the gains. High gains for both PR controllers push one pole into the right half plane, resulting in an unstable system.
 %-----------------------------------------
@@ -288,7 +288,7 @@ where
 \lambda_1 & \lambda_3 & \dots & \lambda_N
 \end{bmatrix}^T
 \end{align*}
-is a vector containing the gains and where $a_i\in\mathbb{R}^{i_{\rm max}}$, $b_i\in\mathbb{R}$ are constant vectors obtained by sampling the value of the angles
+is a vector containing the gains and where $a_i\in\mathbb{R}^{N_{\rm PR}}$, $b_i\in\mathbb{R}$ are constant vectors obtained by sampling the value of the angles
 $\alpha_i$ for a number of gain combinations, and performing a least squares fit.
 
 By describing the angles in~(\ref{eq:MaxMinProb})
@@ -300,7 +300,7 @@ with the approximation~(\ref{eq:AngleApprox}), we obtain a max-min problem with 
  This problem can be equivalently formulated a linear program (LP) according to
 \begin{align}
 \label{eq:MaxMinProbLP}
-\min c^Tx,\quad {\rm s.t.} \quad Ax\le B
+\min c^Tx,\quad {\rm s.t.} \quad Ax\le b
 \end{align}
 with matrices
 \begin{align*}
@@ -311,14 +311,14 @@ A =
  & \vdots \\
 1 & -c^T_{i_{\rm max}}
 \end{bmatrix},\quad
-B =
+b =
 \begin{bmatrix}
 b_1\\
 b_2\\
 \vdots \\
 b_{i_{\rm max}}
 \end{bmatrix},\quad
-C =
+c =
 \begin{bmatrix}
 -1\\
 0\\
@@ -333,7 +333,7 @@ Linear programs can be solved efficiently with readily available software.
 
 \section{Numerical Example}
 
-The PR gain optimization was applied to a VSI with LC filter used in UPS applications. 
+The PR gain optimization was applied to a VSI with LC filter used in UPS applications.
 The UPS considered is a four-wire topology where the dynamics of the three phases are decoupled, due to the connection between filter and DC side neutral point. Due to the decoupling, we consider each of the three phases individually and design stabilizing controllers with proportional feedback. The closed loop system thus becomes a second order transfer function from voltage reference to output voltage on the form~(\ref{eq:InvMdl}).
 %-----------------------------------------
 \begin{figure}[!h]
@@ -349,7 +349,7 @@ The UPS considered is a four-wire topology where the dynamics of the three phase
 \input{fig/VSC_LC_3ph.pstex_t}
 }
 %\includegraphics[width=8cm]{fig/VSC_LC_3ph}
-\caption{Voltage source inverter with LC filter}
+\caption{Voltage source inverter with LC filter.}
 \label{fig:UPS_LC}
 \end{figure}
 %-----------------------------------------
@@ -357,14 +357,14 @@ The UPS considered is a four-wire topology where the dynamics of the three phase
 The inner control loop is augmented with $N_{\rm PR} = 4$ PR controllers as described in Fig.~\ref{fig:ControlStructure}. We thus have five
 angles $\alpha_i$ which are functions of four gains
 $\lambda_i$. The nonlinear functions $\alpha_i$ are sampled over a grid of gain values and a linear approximation of the nonlinear functions is made by least squares fitting. The resulting LP~(\ref{eq:MaxMinProbApprox}) is solved. The poles of the system, using the optimal gains, is shown by the red circles in Fig.~\ref{fig:PolesOptimalExample}.
-We note that at the optimum, all poles have the same damping and are located on a single line. %in the left half complex plane. 
+We note that at the optimum, all poles have the same damping and are located on a single line. %in the left half complex plane.
 %-----------------------------------------
 \begin{figure}[!h]
 \centering
 \input{fig/root_locus.tex}
 \includegraphics{fig/root_locus}
-\caption{Poles of the closed loop system with $N_{PR}=4$ PR controllers: The green points show poles for various combinations of gains $\lambda_1$, $\lambda_3$, $\lambda_5$ and $\lambda_7$. Red circles show poles for the optimal gains. 
-We note that for the optimal gains, all poles have the same damping and are located on a single line in the left half complex plane. 
+\caption{Poles of the closed loop system with $N_{PR}=4$ PR controllers: The green points show poles for various combinations of gains $\lambda_1$, $\lambda_3$, $\lambda_5$ and $\lambda_7$. Red circles show poles for the optimal gains.
+We note that for the optimal gains, all poles have the same damping and are located on a single line in the left half complex plane.
 }
 \label{fig:PolesOptimalExample}
 \end{figure}
@@ -373,7 +373,7 @@ We note that for the optimal gains, all poles have the same damping and are loca
 
 \subsection{Transient performance}
 The system is simulated with a nonlinear load. When the system is at steady state the load is switched out.
-The transient response of the output voltage is shown in 
+The transient response of the output voltage is shown in
 Fig.~\ref{fig:trans_vc}.
 
 %-----------------------------------------
@@ -388,7 +388,7 @@ Fig.~\ref{fig:trans_vc}.
 
 
 \subsection{Steady state performance}
-The system is simulated with a nonlinear load; we consider a diode rectifier bridge. The steady state output voltage and load current are shown in Fig.~\ref{fig/steady_state_vCf} and
+The system is simulated with a nonlinear load; we consider a diode rectifier bridge. The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and
 \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. All values are in per unit.
 
 
@@ -408,7 +408,7 @@ The system is simulated with a nonlinear load; we consider a diode rectifier bri
 \input{fig/steady_state_iLoad.tex}
 \includegraphics{fig/steady_state_iLoad}
 \caption{Steady state load current.}
-\label{fig:sss_iload}
+\label{fig:ss_iload}
 \end{figure}
 %-----------------------------------------
 %-----------------------------------------

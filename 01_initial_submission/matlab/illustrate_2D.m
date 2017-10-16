@@ -42,7 +42,7 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 % plot axes
 plot([0, 0], [-2500, 2500], 'k'), hold on
-plot([-1900, 300], [0, 0], 'k')
+plot([-2500, 500], [0, 0], 'k')
 
 for kkk1 = 1:length(LV)
     for kkk2 = 1:length(LV2)
