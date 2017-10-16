@@ -4,7 +4,9 @@ clear
 % figure options
 myFontSize = 8;
 myLineWidth = 2;
-figSize = [530    55   360   480];
+%figSize = [530    55   360   480];
+figSize = [530    55   360   400];
+
 FB=input('Store as eps file (y/N)?: ','s');
 
 % transfer function
@@ -67,12 +69,12 @@ for kkk1 = 1:length(LV)
     end
 end
 
-AllRoots = complex(AllRoots);
+%AllRoots = complex(AllRoots);
 plot(reshape(AllRoots, [6*nPoints*nPoints2, 1]), 'g.'), hold on, grid on
 
 for ii = 1: nPoints
     for kk = 1:6
-        plot(complex(AllRoots(ii,:,kk)), '.', 'color', [0+(ii-1)/(nPoints-1)*0.5, 0.5+(ii-1)/(nPoints-1)*0.5, 0])
+        plot(AllRoots(ii,:,kk), '.', 'color', [0+(ii-1)/(nPoints-1)*0.5, 0.5+(ii-1)/(nPoints-1)*0.5, 0])
     end
 end
 

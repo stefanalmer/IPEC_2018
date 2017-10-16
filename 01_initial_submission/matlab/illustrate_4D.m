@@ -4,7 +4,8 @@ clear
 % figure options
 myFontSize = 8;
 myLineWidth = 2;
-figSize = [530    55   360   480];
+%figSize = [530    55   360   480];
+figSize = [530    55   360   400];
 FB=input('Store as eps file (y/N)?: ','s');
 
 % transfer function
@@ -84,7 +85,9 @@ for kkk1 = 1:length(LV)
     end
 end
 
-AllRoots = complex(AllRoots);
+
+
+%AllRoots = complex(AllRoots);
 for kk = 1:10
     ii = ceil(kk/2);
     kkRoots = reshape(AllRoots(:,:,:,:, kk), [nPoints*nPoints2*nPoints3*nPoints4, 1]);
@@ -92,26 +95,27 @@ for kk = 1:10
 end
 
 
+
 %%% Plot blue circles for small PR gains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-L1 = 1;
-L3 = 1;
-L5 = 1;
-L7 = 1;
+%L1 = 1;
+%L3 = 1;
+%L5 = 1;
+%L7 = 1;
 
-den = [ 1;
-    a ;
-    (w1^2 + w3^2 + w5^2 + w7^2 + b);
-    (a*w1^2 + a*w3^2 + a*w5^2 + a*w7^2 + L1*b + L3*b + L5*b + L7*b) ;
-    (w1^2*w3^2 + w1^2*w5^2 + w1^2*w7^2 + b*w1^2 + w3^2*w5^2 + w3^2*w7^2 + b*w3^2 + w5^2*w7^2 + b*w5^2 + b*w7^2);
-    (a*w1^2*w3^2 + a*w1^2*w5^2 + a*w1^2*w7^2 + a*w3^2*w5^2 + a*w3^2*w7^2 + a*w5^2*w7^2 + L1*b*w3^2 + L3*b*w1^2 + L1*b*w5^2 + L5*b*w1^2 + L1*b*w7^2 + L3*b*w5^2 + L5*b*w3^2 + L7*b*w1^2 + L3*b*w7^2 + L7*b*w3^2 + L5*b*w7^2 + L7*b*w5^2);
-    (w1^2*w3^2*w5^2 + w1^2*w3^2*w7^2 + b*w1^2*w3^2 + w1^2*w5^2*w7^2 + b*w1^2*w5^2 + b*w1^2*w7^2 + w3^2*w5^2*w7^2 + b*w3^2*w5^2 + b*w3^2*w7^2 + b*w5^2*w7^2);
-    (a*w1^2*w3^2*w5^2 + a*w1^2*w3^2*w7^2 + a*w1^2*w5^2*w7^2 + a*w3^2*w5^2*w7^2 + L1*b*w3^2*w5^2 + L3*b*w1^2*w5^2 + L5*b*w1^2*w3^2 + L1*b*w3^2*w7^2 + L3*b*w1^2*w7^2 + L7*b*w1^2*w3^2 + L1*b*w5^2*w7^2 + L5*b*w1^2*w7^2 + L7*b*w1^2*w5^2 + L3*b*w5^2*w7^2 + L5*b*w3^2*w7^2 + L7*b*w3^2*w5^2);
-    (w1^2*w3^2*w5^2*w7^2 + b*w1^2*w3^2*w5^2 + b*w1^2*w3^2*w7^2 + b*w1^2*w5^2*w7^2 + b*w3^2*w5^2*w7^2) ;
-    (a*w1^2*w3^2*w5^2*w7^2 + L7*b*w1^2*w3^2*w5^2 + L5*b*w1^2*w3^2*w7^2 + L3*b*w1^2*w5^2*w7^2 + L1*b*w3^2*w5^2*w7^2);
-    b*w1^2*w3^2*w5^2*w7^2  ];
+%den = [ 1;
+%    a ;
+%    (w1^2 + w3^2 + w5^2 + w7^2 + b);
+%    (a*w1^2 + a*w3^2 + a*w5^2 + a*w7^2 + L1*b + L3*b + L5*b + L7*b) ;
+%    (w1^2*w3^2 + w1^2*w5^2 + w1^2*w7^2 + b*w1^2 + w3^2*w5^2 + w3^2*w7^2 + b*w3^2 + w5^2*w7^2 + b*w5^2 + b*w7^2);
+%    (a*w1^2*w3^2 + a*w1^2*w5^2 + a*w1^2*w7^2 + a*w3^2*w5^2 + a*w3^2*w7^2 + a*w5^2*w7^2 + L1*b*w3^2 + L3*b*w1^2 + L1*b*w5^2 + L5*b*w1^2 + L1*b*w7^2 + L3*b*w5^2 + L5*b*w3^2 + L7*b*w1^2 + L3*b*w7^2 + L7*b*w3^2 + L5*b*w7^2 + L7*b*w5^2);
+%    (w1^2*w3^2*w5^2 + w1^2*w3^2*w7^2 + b*w1^2*w3^2 + w1^2*w5^2*w7^2 + b*w1^2*w5^2 + b*w1^2*w7^2 + w3^2*w5^2*w7^2 + b*w3^2*w5^2 + b*w3^2*w7^2 + b*w5^2*w7^2);
+%    (a*w1^2*w3^2*w5^2 + a*w1^2*w3^2*w7^2 + a*w1^2*w5^2*w7^2 + a*w3^2*w5^2*w7^2 + L1*b*w3^2*w5^2 + L3*b*w1^2*w5^2 + L5*b*w1^2*w3^2 + L1*b*w3^2*w7^2 + L3*b*w1^2*w7^2 + L7*b*w1^2*w3^2 + L1*b*w5^2*w7^2 + L5*b*w1^2*w7^2 + L7*b*w1^2*w5^2 + L3*b*w5^2*w7^2 + L5*b*w3^2*w7^2 + L7*b*w3^2*w5^2);
+%    (w1^2*w3^2*w5^2*w7^2 + b*w1^2*w3^2*w5^2 + b*w1^2*w3^2*w7^2 + b*w1^2*w5^2*w7^2 + b*w3^2*w5^2*w7^2) ;
+%    (a*w1^2*w3^2*w5^2*w7^2 + L7*b*w1^2*w3^2*w5^2 + L5*b*w1^2*w3^2*w7^2 + L3*b*w1^2*w5^2*w7^2 + L1*b*w3^2*w5^2*w7^2);
+%    b*w1^2*w3^2*w5^2*w7^2  ];
 
-rot = roots(den);
-plot(rot, 'bo')
+%rot = roots(den);
+%plot(rot, 'bo')
 
 
 %%% Plot poles for optimal PR gains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
