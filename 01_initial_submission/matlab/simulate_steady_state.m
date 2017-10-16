@@ -131,8 +131,8 @@ plot(t_vec_per,vCf_vec_per_c,'g')
 plot(t_vec_per,vCf_vec_ref_per_a,'k--')
 plot(t_vec_per,vCf_vec_ref_per_b,'k--')
 plot(t_vec_per,vCf_vec_ref_per_c,'k--')
-legend('phase a','phase b','phase c','Location','SouthEast')
-xlabel('time [s]'),ylabel('voltage [V]')
+legend('a','b','c','Location','South', 'orientation', 'horizontal')
+xlabel('time [s]'),ylabel('phase voltage [V]'), ylim([-1.4, 1.1])
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 matlabfrag('steady_state_vCf')
@@ -156,9 +156,9 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 plot(t_vec_per,iLoad_vec_per_a,'b'),grid on,hold on
 plot(t_vec_per,iLoad_vec_per_b,'r')
 plot(t_vec_per,iLoad_vec_per_c,'g')
-legend('phase a','phase b','phase c','Location','SouthEast')
-xlabel('time [s]'),ylabel('current [A]')
-set(gca,'FontSize', myFontSize);
+legend('a','b','c','Location','South', 'orientation', 'horizontal')
+ylabel('phase current [A]'), ylim([-1.8, 1.4])
+xlabel('time [s]'), set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 matlabfrag('steady_state_iLoad')
 
@@ -171,20 +171,32 @@ vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
 vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:10))).^2))
 
 
-figure(4)
+% figure(4)
+% set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
+% 
+% bar(20*log10(2*abs(vCf_FFT_a(1:50)))),grid on
+% axis([0,50,-60,0])
+% 
+% xlabel('harmonic number'),ylabel('amplitude [dB]')
+% set(gca,'FontSize', myFontSize);
+% set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
+% matlabfrag('steady_state_harmonics')
+% 
+% movefile('steady_state_harmonics.*', '../fig', 'f')
+ 
+figure(5)
 set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
-stairs(20*log10(2*abs(vCf_FFT_a(1:50)))),grid on
-axis([0,50,-60,0])
+bar(0:49, 2*abs(vCf_FFT_a(1:50))),grid on
+axis([-1,50,0,0.05])
+text(2,0.048, '$h_1 = 0.9946$')
 
-xlabel('harmonic number'),ylabel('amplitude [dB]')
+xlabel('harmonic number'),ylabel('amplitude [pu]')
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 matlabfrag('steady_state_harmonics')
 
 movefile('steady_state_harmonics.*', '../fig', 'f')
- 
-
 
 
 

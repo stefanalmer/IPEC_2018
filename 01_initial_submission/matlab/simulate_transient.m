@@ -116,8 +116,8 @@ plot(t_vec, vCf_vec_b,'r')
 plot(t_vec, vCf_vec_c,'g')
 axis([0.395,0.415,-1.5,1.5])
 
-legend('phase a','phase b','phase c','Location','SouthEast')
-xlabel('time [s]'),ylabel('voltage [V]')
+legend('a','b','c','Location','South', 'orientation', 'horizontal')
+xlabel('time [s]'),ylabel('phase voltage [V]'), ylim([-1.5, 1.3])
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 matlabfrag('transient_vCf')
