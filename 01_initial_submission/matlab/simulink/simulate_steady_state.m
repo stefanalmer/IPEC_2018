@@ -182,7 +182,7 @@ plot(t_vec_per,iLoad_vec_per_c,'b')
 
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:10))).^2))
+vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:10))).^2))
 
 
 figure(3)
@@ -190,9 +190,9 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 
 
-h31 = plot(20*log10(2*abs(vCf_FFT_a(1:50))),'bo'),grid on,hold on
+h31 = plot([0:50-1],20*log10(2*abs(vCf_FFT_a(1:50))),'bo'),grid on,hold on
 for kkk = 1:30
-    plot([kkk,kkk],[-80,20*log10(2*abs(vCf_FFT_a(kkk)))],'b'),
+    plot([kkk-1,kkk-1],[-80,20*log10(2*abs(vCf_FFT_a(kkk)))],'b'),
 end
 axis([0,30,-60,0])
 
@@ -202,6 +202,10 @@ axis([0,30,-60,0])
 %matlabfrag('steady_state_harmonics')
 %movefile('steady_state_harmonics.*', '../fig', 'f')
  
+
+
+
+
 
 % ----------------------------------------------------
 % ----------------------------------------------------
@@ -281,7 +285,7 @@ plot(t_vec_per,vCf_vec_per_c,'r')
 plot(t_vec_per,vCf_vec_ref_per_a,'k--')
 plot(t_vec_per,vCf_vec_ref_per_b,'k--')
 plot(t_vec_per,vCf_vec_ref_per_c,'k--')
-legend([h11,h12],{'with PRs','without PRs'},'Location','NorthEast')
+legend([h11,h12],{'with PRs','without PRs'},'Location','SouthEast')
 xlabel('time [s]'),ylabel('voltage [pu]')
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
@@ -307,7 +311,7 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 h22 = plot(t_vec_per,iLoad_vec_per_a,'r'),grid on,hold on
 plot(t_vec_per,iLoad_vec_per_b,'r')
 plot(t_vec_per,iLoad_vec_per_c,'r')
-legend([h21,h22],{'with PRs','without PRs'},'Location','NorthEast')
+legend([h21,h22],{'with PRs','without PRs'},'Location','SouthEast')
 xlabel('time [s]'),ylabel('current [pu]')
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
@@ -326,9 +330,9 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 
 
-h32 = plot(20*log10(2*abs(vCf_FFT_a(1:50))),'rx'),grid on,hold on
+h32 = plot([0:50-1],20*log10(2*abs(vCf_FFT_a(1:50))),'rx'),grid on,hold on
 for kkk = 1:30
-    plot([kkk,kkk],[-80,20*log10(2*abs(vCf_FFT_a(kkk)))],'r'),
+    plot([kkk-1,kkk-1],[-80,20*log10(2*abs(vCf_FFT_a(kkk)))],'r'),
 end
 axis([0,30,-60,0])
 

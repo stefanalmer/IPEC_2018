@@ -368,8 +368,6 @@ We note that for the optimal gains, all poles have the same damping and are loca
 %-----------------------------------------
 
 
-%\subsection{Simulation}
-%\subsection{Transient performance}
 The system is simulated with a nonlinear load; a diode rectifier bridge. The dynamic response and the steady state behavior with and without PR controllers is evaluated in simulation. All values are in per unit.
 
 When the system is at steady state the load is switched out. The transient response of the output voltage is shown in Fig.~\ref{fig:trans_vc}. It can be seen that the introduction of the PR controllers (blue line) causes some more extended oscillation, but only a minor increase of the overshoot.
@@ -383,17 +381,8 @@ When the system is at steady state the load is switched out. The transient respo
 \end{figure}
 %-----------------------------------------
 
-<<<<<<< HEAD
-%\subsection{Steady state performance}
-The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics, while some of the higher order harmonics increase.
-=======
-
-\subsection{Steady state performance}
-The system is simulated with a nonlinear load; we consider a diode rectifier bridge. The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. All values are in per unit.
-
-
-
->>>>>>> 261d4d0f08281c23f0218e1f765cbcd93ee3dee2
+The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics, while some of the higher order harmonics increase. 
+Without the PR controllers, the THD is $5.6 \%$. Adding the PR controllers reduces the THD to $3.3 \%$.
 %-----------------------------------------
 \begin{figure}[!h]
 \centering
@@ -417,17 +406,10 @@ The system is simulated with a nonlinear load; we consider a diode rectifier bri
 \centering
 \input{fig/steady_state_harmonics.tex}
 \includegraphics{fig/steady_state_harmonics}
-<<<<<<< HEAD
 \caption{Harmonics of he steady state output voltage with diode rectifier bridge as load.}
-=======
-\caption{Harmonics of the steady state output voltage.}
->>>>>>> 261d4d0f08281c23f0218e1f765cbcd93ee3dee2
 \label{fig:ss_harm}
 \end{figure}
 %-----------------------------------------
-
-
-
 
 \bibliography{IPECrefs}
 
