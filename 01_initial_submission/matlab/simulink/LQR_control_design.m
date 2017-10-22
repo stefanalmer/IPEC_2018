@@ -61,12 +61,16 @@ Ad = expm(Ac*Tc);
 Bd = [eye(2),zeros(2,1)]*expm([Ac,Bc;zeros(1,3)]*Tc)*[zeros(2,1);1];
 
 Qlq = zeros(2);
-Qlq(1,1) = 1; 
-Qlq(2,2) = 4; 
-Rlq = 17; 
+Qlq(1,1) = 10; %10 1
+Qlq(2,2) = 13; %13 4
+Rlq = 17 * 1;  %
 [Klq,Slq,Elq] = dlqr(Ad,Bd,Qlq,Rlq);
 CTRL.Klq = Klq;
+CTRL.Klq(2) = 1.2*CTRL.Klq(2);
+ 
+
 % -----------------------------------------------------------
+
 
 
 % --- proportional resonant controller for offset free tracking
@@ -211,3 +215,21 @@ CTRL.CKd2 = KEST1_d.c(2:3,:);
 CTRL.DKd2 = KEST1_d.d(2:3,2);
 
 % -----------------------------------------------------------------
+
+
+
+% inner current loop controller
+As = [0, -1/L;
+      1/C,  0];
+Bs = [1/L; 0];
+%Fs = [0; -1/C];
+Cs = [1,0];
+Ds = 0;
+
+SYS = ss(As,Bs,Cs,Ds)
+% rlocus(SYS)
+kp = 0.79;
+CTRL.kp = kp;
+Acl = As - Bs*[kp,0];
+
+
