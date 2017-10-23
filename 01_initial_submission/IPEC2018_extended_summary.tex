@@ -381,8 +381,8 @@ When the system is at steady state the load is switched out. The transient respo
 \end{figure}
 %-----------------------------------------
 
-The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics to less than $-60$ dB.
-Without the PR controllers, the THD is $5.4 \%$. Adding the PR controllers reduces the THD to $2.5 \%$.
+The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. Both figures verify that the PR controllers result in a much closer tracking of the sinusoidal reference, mitigating the delay as well as the oscillations of the output voltage. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics to less than $-60$ dB.
+Without the PR controllers, the THD is $6.2 \%$. Adding the PR controllers reduces the THD to $2.7 \%$.
 %-----------------------------------------
 \begin{figure}[!h]
 \centering
@@ -406,6 +406,16 @@ Without the PR controllers, the THD is $5.4 \%$. Adding the PR controllers reduc
 \centering
 \input{fig/steady_state_harmonics.tex}
 \includegraphics{fig/steady_state_harmonics}
+\caption{Harmonics of the steady state output voltage with diode rectifier bridge as load.}
+\label{fig:ss_harm}
+\end{figure}
+%-----------------------------------------
+
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/steady_state_harmonics_linear.tex}
+\includegraphics{fig/steady_state_harmonics_linear}
 \caption{Harmonics of the steady state output voltage with diode rectifier bridge as load.}
 \label{fig:ss_harm}
 \end{figure}
