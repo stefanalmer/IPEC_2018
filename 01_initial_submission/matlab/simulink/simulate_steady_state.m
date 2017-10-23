@@ -7,6 +7,9 @@ myFontSize = 8;
 myLineWidth = 2;
 figSize = [530    55   360   380];
 
+
+FACT = 1;
+
 % ------------------------------------------------------------- 
 % The controller varieties considered in simulation
 % are summarised in the report
@@ -72,19 +75,24 @@ VSI.Treg = 30e-06;
 VSI.DR_Vc0    = 280;
         
 
- 
-%lam1_pr = 150.4338;
-%lam3_pr = 428.4452;
- 
- 
-lam1_pr = 111.1867;
-lam3_pr =  313.8555;
-lam5_pr = 344.3558;
-lam7_pr = 690.0204;
-lam9_pr = 0;
+
+%lam1_pr = 111.1867 ;
+%lam3_pr =  313.8555;
+%lam5_pr = 344.3558;
+%lam7_pr = 690.0204;
+%lam9_pr = 0;
+
+
+% optimal gains for feedback vector
+% Klq = [0.7602    0.1392];
+
+lam1_pr = 263.0489;
+lam3_pr = 600.0000;
+lam5_pr = 294.1350;
+lam7_pr = 969.2109;
+lam9_pr = 1e-3;
 
 LQR_control_design
-
 
     % --- run simulations -----------------------------------
     % -------------------------------------------------------
@@ -99,7 +107,7 @@ LQR_control_design
 
     CTRL.s5 = 0;
     
-    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl');
+    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl_v3');
         
     load vCf
     load iLf
@@ -116,12 +124,12 @@ Imax = 434.7826;
 
 % output voltage
 t_vec = vCf.Time;
-vCf_vec_a = vCf.Data(:,1)/(S.Vn*sqrt(2)); 
-vCf_vec_b = vCf.Data(:,2)/(S.Vn*sqrt(2)); 
-vCf_vec_c = vCf.Data(:,3)/(S.Vn*sqrt(2)); 
-vCf_vec_ref_a = v_ref.Data(:,1)/(S.Vn*sqrt(2)); 
-vCf_vec_ref_b = v_ref.Data(:,2)/(S.Vn*sqrt(2)); 
-vCf_vec_ref_c = v_ref.Data(:,3)/(S.Vn*sqrt(2)); 
+vCf_vec_a = vCf.Data(:,1)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_b = vCf.Data(:,2)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_c = vCf.Data(:,3)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_ref_a = v_ref.Data(:,1)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_ref_b = v_ref.Data(:,2)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_ref_c = v_ref.Data(:,3)/(S.Vn*sqrt(2)*FACT); 
 
 [val1,ind1] = min(abs(t_vec - t1));
 [val2,ind2] = min(abs(t_vec - 2));
@@ -132,11 +140,6 @@ vCf_vec_per_c = vCf_vec_c(ind1:ind2,1);
 vCf_vec_ref_per_a = vCf_vec_ref_a(ind1:ind2,1); 
 vCf_vec_ref_per_b = vCf_vec_ref_b(ind1:ind2,1); 
 vCf_vec_ref_per_c = vCf_vec_ref_c(ind1:ind2,1); 
-
-
-% plot steady state
-figure(1)
-set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 
 
@@ -155,6 +158,7 @@ plot(t_vec_per,vCf_vec_ref_per_c,'k--')
 
 
 
+
 % load current
 iLoad_vec_a = iLoad.Data(:,1)/Imax; 
 iLoad_vec_b = iLoad.Data(:,2)/Imax; 
@@ -169,8 +173,8 @@ figure(2)
 set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 h21 = plot(t_vec_per,iLoad_vec_per_a,'b'),grid on,hold on
-plot(t_vec_per,iLoad_vec_per_b,'b')
-plot(t_vec_per,iLoad_vec_per_c,'b')
+%plot(t_vec_per,iLoad_vec_per_b,'b')
+%plot(t_vec_per,iLoad_vec_per_c,'b')
 %legend('phase a','phase b','phase c','Location','SouthEast')
 %xlabel('time [s]'),ylabel('current [A]')
 %set(gca,'FontSize', myFontSize);
@@ -182,8 +186,8 @@ plot(t_vec_per,iLoad_vec_per_c,'b')
 
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:900))).^2))
-
+vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:length(vCf_FFT_a)/2))).^2))
+vCf_FFT_a_v1 = vCf_FFT_a;
 
 figure(3)
 set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
@@ -196,12 +200,7 @@ for kkk = 1:30
 end
 axis([0,30,-60,0])
 
-%xlabel('harmonic number'),ylabel('amplitude [dB]')
-%set(gca,'FontSize', myFontSize);
-%set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
-%matlabfrag('steady_state_harmonics')
-%movefile('steady_state_harmonics.*', '../fig', 'f')
- 
+
 
 
 
@@ -237,7 +236,7 @@ LQR_control_design
 
     CTRL.s5 = 0;
     
-    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl');
+    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl_v3');
         
     load vCf
     load iLf
@@ -309,8 +308,8 @@ figure(2)
 set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 h22 = plot(t_vec_per,iLoad_vec_per_a,'r'),grid on,hold on
-plot(t_vec_per,iLoad_vec_per_b,'r')
-plot(t_vec_per,iLoad_vec_per_c,'r')
+%plot(t_vec_per,iLoad_vec_per_b,'r')
+%plot(t_vec_per,iLoad_vec_per_c,'r')
 legend([h21,h22],{'with PRs','without PRs'},'Location','SouthEast')
 xlabel('time [s]'),ylabel('current [pu]')
 set(gca,'FontSize', myFontSize);
@@ -319,10 +318,8 @@ matlabfrag('steady_state_iLoad')
 movefile('steady_state_iLoad.*', '../fig', 'f')
  
 
-
-
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:900))).^2))
+vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:length(vCf_FFT_a)/2))).^2))
 
 
 figure(3)
@@ -343,8 +340,11 @@ set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 matlabfrag('steady_state_harmonics')
 movefile('steady_state_harmonics.*', '../fig', 'f')
- 
-figure(4)
+
+kMax = 30;
+figure(5)
+bar([0:kMax-1],[2*abs(vCf_FFT_a_v1(1:kMax)), 2*abs(vCf_FFT_a(1:kMax))]);
+
 
 
 % ----------------------------------------------------

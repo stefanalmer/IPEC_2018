@@ -7,6 +7,8 @@ myFontSize = 8;
 myLineWidth = 2;
 figSize = [530    55   360   380];
 
+FACT = 1;
+
 % ------------------------------------------------------------- 
 % The controller varieties considered in simulation
 % are summarised in the report
@@ -59,11 +61,11 @@ end
  Tfinal = 0.5; % 1.1;
  n_T_PWM_1 = 8378; % number of PWM sampling periods when switch in load
  VSI.tk    = n_T_PWM_1*VSI.Tinp/2 + 1e-6 - VSI.Treg - 0.02*30; % [s] disconnection of the UPS's loads 
- VSI.tk = VSI.tk -0.0005;
+ VSI.tk = VSI.tk -0.0005 - 0.0004 + 0.0015;
  VSI.ton   = 0.1;
 % overwrite connection time of load
 %VSI.tk    =   10;     % [s] disconnection of the UPS's loads 
-%VSI.ton  =    0.11;      % [s]  connection of the UPS's loads 
+%VSI.ton  =    0.3;      % [s]  connection of the UPS's loads 
     
  
 VSI.Treg = 30e-06;
@@ -72,18 +74,19 @@ VSI.Treg = 30e-06;
 %UPS.LoadD1  =   0;
 VSI.DR_Vc0    = 280;
         
+ 
+%lam1_pr = 111.1867;
+%lam3_pr =  313.8555;
+%lam5_pr = 344.3558;
+%lam7_pr = 690.0204;
+%lam9_pr = 0;
 
- 
-%lam1_pr = 150.4338;
-%lam3_pr = 428.4452;
- 
- 
-lam1_pr = 111.1867;
-lam3_pr =  313.8555;
-lam5_pr = 344.3558;
-lam7_pr = 690.0204;
-lam9_pr = 0;
 
+lam1_pr = 263.0489;
+lam3_pr = 600.0000;
+lam5_pr = 294.1350;
+lam7_pr = 969.2109;
+lam9_pr = 1e-3;
 
 LQR_control_design
 
@@ -101,7 +104,7 @@ LQR_control_design
 
     CTRL.s5 = 0;
     
-    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl');
+    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl_v3');
         
     load vCf
     load iLf
@@ -118,12 +121,12 @@ Imax = 434.7826;
 
 % output voltage
 t_vec = vCf.Time;
-vCf_vec_a = vCf.Data(:,1)/(S.Vn*sqrt(2)); 
-vCf_vec_b = vCf.Data(:,2)/(S.Vn*sqrt(2)); 
-vCf_vec_c = vCf.Data(:,3)/(S.Vn*sqrt(2)); 
-vCf_vec_ref_a = v_ref.Data(:,1)/(S.Vn*sqrt(2)); 
-vCf_vec_ref_b = v_ref.Data(:,2)/(S.Vn*sqrt(2)); 
-vCf_vec_ref_c = v_ref.Data(:,3)/(S.Vn*sqrt(2)); 
+vCf_vec_a = vCf.Data(:,1)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_b = vCf.Data(:,2)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_c = vCf.Data(:,3)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_ref_a = v_ref.Data(:,1)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_ref_b = v_ref.Data(:,2)/(S.Vn*sqrt(2)*FACT); 
+vCf_vec_ref_c = v_ref.Data(:,3)/(S.Vn*sqrt(2)*FACT); 
 
 [val1,ind1] = min(abs(t_vec - t1));
 [val2,ind2] = min(abs(t_vec - 2));
@@ -135,20 +138,12 @@ vCf_vec_ref_per_a = vCf_vec_ref_a(ind1:ind2,1);
 vCf_vec_ref_per_b = vCf_vec_ref_b(ind1:ind2,1); 
 vCf_vec_ref_per_c = vCf_vec_ref_c(ind1:ind2,1); 
 
-
-% plot steady state
-figure(1)
-set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
-
-
-
 h11 = plot(t_vec,vCf_vec_a,'b'),grid on,hold on
 plot(t_vec,vCf_vec_b,'b')
 plot(t_vec,vCf_vec_c,'b')
 plot(t_vec,vCf_vec_ref_a,'k--')
 plot(t_vec,vCf_vec_ref_b,'k--')
 plot(t_vec,vCf_vec_ref_c,'k--')
-
 
 
 
@@ -177,7 +172,7 @@ LQR_control_design
 
     CTRL.s5 = 0;
     
-    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl');
+    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl_v3');
         
     load vCf
     load iLf
@@ -225,7 +220,7 @@ plot(t_vec,vCf_vec_ref_a,'k--')
 plot(t_vec,vCf_vec_ref_b,'k--')
 plot(t_vec,vCf_vec_ref_c,'k--')
 del = 0.007;
-axis([0.405-del,0.405+del,-1.5,1.5])
+axis([0.4059-del,0.4059+del,-1.5,1.5])
 legend([h11,h12],{'with PRs','without PRs'},'Location','SouthEast')
 xlabel('time [s]'),ylabel('voltage [pu]')
 set(gca,'FontSize', myFontSize);

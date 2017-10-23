@@ -370,7 +370,7 @@ We note that for the optimal gains, all poles have the same damping and are loca
 
 The system is simulated with a nonlinear load; a diode rectifier bridge. The dynamic response and the steady state behavior with and without PR controllers is evaluated in simulation. All values are in per unit.
 
-When the system is at steady state the load is switched out. The transient response of the output voltage is shown in Fig.~\ref{fig:trans_vc}. It can be seen that the introduction of the PR controllers (blue line) causes some more extended oscillation, but only a minor increase of the overshoot.
+When the system is at steady state the load is switched out. The transient response of the output voltage is shown in Fig.~\ref{fig:trans_vc}. It can be seen that the introduction of the PR controllers (blue line) only causes minor changes in the transient.
 %-----------------------------------------
 \begin{figure}[!h]
 \centering
@@ -381,8 +381,8 @@ When the system is at steady state the load is switched out. The transient respo
 \end{figure}
 %-----------------------------------------
 
-The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics, while some of the higher order harmonics increase.
-Without the PR controllers, the THD is $5.6 \%$. Adding the PR controllers reduces the THD to $3.3 \%$.
+The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics to less than $-60$ dB.
+Without the PR controllers, the THD is $5.4 \%$. Adding the PR controllers reduces the THD to $2.5 \%$.
 %-----------------------------------------
 \begin{figure}[!h]
 \centering
@@ -397,7 +397,7 @@ Without the PR controllers, the THD is $5.6 \%$. Adding the PR controllers reduc
 \centering
 \input{fig/steady_state_iLoad.tex}
 \includegraphics{fig/steady_state_iLoad}
-\caption{Steady state load current with diode rectifier bridge as load.}
+\caption{Steady state load current of phase a with diode rectifier bridge as load.}
 \label{fig:ss_iload}
 \end{figure}
 %-----------------------------------------
