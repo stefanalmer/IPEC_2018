@@ -182,7 +182,7 @@ plot(t_vec_per,iLoad_vec_per_c,'b')
 
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:10))).^2))
+vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:900))).^2))
 
 
 figure(3)
@@ -322,7 +322,7 @@ movefile('steady_state_iLoad.*', '../fig', 'f')
 
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:10))).^2))
+vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:900))).^2))
 
 
 figure(3)
@@ -344,6 +344,7 @@ set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 matlabfrag('steady_state_harmonics')
 movefile('steady_state_harmonics.*', '../fig', 'f')
  
+figure(4)
 
 
 % ----------------------------------------------------
