@@ -4,7 +4,6 @@ clear
 % figure options
 myFontSize = 8;
 myLineWidth = 2;
-%figSize = [530    55   360   480];
 figSize = [530    55   360   400];
 
 FB=input('Store as eps file (y/N)?: ','s');
@@ -42,7 +41,7 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 
 % plot axes
 plot([0, 0], [-2500, 2500], 'k'), hold on
-plot([-2500, 500], [0, 0], 'k')
+plot([-2600, 600], [0, 0], 'k')
 
 for kkk1 = 1:length(LV)
     for kkk2 = 1:length(LV2)
@@ -74,7 +73,11 @@ plot(reshape(AllRoots, [6*nPoints*nPoints2, 1]), 'g.'), hold on, grid on
 
 for ii = 1: nPoints
     for kk = 1:6
-        plot(AllRoots(ii,:,kk), '.', 'color', [0+(ii-1)/(nPoints-1)*0.5, 0.5+(ii-1)/(nPoints-1)*0.5, 0])
+        if isreal(AllRoots(ii,:,kk))
+            plot(complex(AllRoots(ii,:,kk)), '.', 'color', [0+(ii-1)/(nPoints-1)*0.5, 0.5+(ii-1)/(nPoints-1)*0.5, 0])
+        else
+            plot(AllRoots(ii,:,kk), '.', 'color', [0+(ii-1)/(nPoints-1)*0.5, 0.5+(ii-1)/(nPoints-1)*0.5, 0])
+        end
     end
 end
 
