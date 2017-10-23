@@ -119,6 +119,12 @@ t2 = Tfinal;
 
 Imax = 434.7826;
 
+
+
+%plot(vCf.Time,v_ref.Data(:,1)/(S.Vn*sqrt(2)),'k'),hold on
+%plot(vCf.Time,vCf.Data(:,1)/(S.Vn*sqrt(2)),'b')
+%break
+
 % output voltage
 t_vec = vCf.Time;
 vCf_vec_a = vCf.Data(:,1)/(S.Vn*sqrt(2)*FACT); 
@@ -144,7 +150,6 @@ plot(t_vec,vCf_vec_c,'b')
 plot(t_vec,vCf_vec_ref_a,'k--')
 plot(t_vec,vCf_vec_ref_b,'k--')
 plot(t_vec,vCf_vec_ref_c,'k--')
-
 
 
 
@@ -220,11 +225,20 @@ plot(t_vec,vCf_vec_ref_a,'k--')
 plot(t_vec,vCf_vec_ref_b,'k--')
 plot(t_vec,vCf_vec_ref_c,'k--')
 del = 0.007;
-axis([0.4059-del,0.4059+del,-1.5,1.5])
-legend([h11,h12],{'with PRs','without PRs'},'Location','SouthEast')
+%axis([0.4059-del,0.4059+del,-1.5,1.5])
+axis([0.4059-del,0.46,-1.5,1.5])
+
 xlabel('time [s]'),ylabel('voltage [pu]')
+
 set(gca,'FontSize', myFontSize);
+hleg1 = legend([h11,h12],{'PR','no PR'},'Location','SouthEast')
+set(hleg1,'Interpreter','latex')
+set(gca,'fontsize',6)
+ 
+
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
+
+
 matlabfrag('transient_vCf')
 movefile('transient_vCf.*', '../fig', 'f')
 

@@ -186,7 +186,7 @@ h21 = plot(t_vec_per,iLoad_vec_per_a,'b'),grid on,hold on
 
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:length(vCf_FFT_a)/2))).^2))
+vCf_THD_a_PR = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:1:length(vCf_FFT_a)/2))).^2))
 
 
 figure(3)
@@ -236,7 +236,7 @@ LQR_control_design
 
     CTRL.s5 = 0;
     
-    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl');
+    simOut = sim('UPS_3level_Ttype_Inverter_simplified_ctrl_v3');
         
     load vCf
     load iLf
@@ -284,10 +284,15 @@ plot(t_vec_per,vCf_vec_per_c,'r')
 plot(t_vec_per,vCf_vec_ref_per_a,'k--')
 plot(t_vec_per,vCf_vec_ref_per_b,'k--')
 plot(t_vec_per,vCf_vec_ref_per_c,'k--')
-legend([h11,h12],{'with PRs','without PRs'},'Location','SouthEast')
+
 xlabel('time [s]'),ylabel('voltage [pu]')
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
+
+hleg1 = legend([h11,h12],{'PR','no PR'},'Location','SouthEast')
+set(hleg1,'Interpreter','latex')
+set(gca,'fontsize',6)
+
 matlabfrag('steady_state_vCf')
 movefile('steady_state_vCf.*', '../fig', 'f')
 
@@ -310,16 +315,21 @@ set(gcf,'outerposition', figSize, 'PaperPositionMode', 'auto')
 h22 = plot(t_vec_per,iLoad_vec_per_a,'r'),grid on,hold on
 %plot(t_vec_per,iLoad_vec_per_b,'r')
 %plot(t_vec_per,iLoad_vec_per_c,'r')
-legend([h21,h22],{'with PRs','without PRs'},'Location','SouthEast')
+
 xlabel('time [s]'),ylabel('current [pu]')
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
+
+hleg1 = legend([h21,h22],{'PR','no PR'},'Location','SouthEast')
+set(hleg1,'Interpreter','latex')
+set(gca,'fontsize',6)
+
 matlabfrag('steady_state_iLoad')
 movefile('steady_state_iLoad.*', '../fig', 'f')
  
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
-vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(4:2:length(vCf_FFT_a)/2))).^2))
+vCf_THD_a = 100 * sqrt(sum((2*abs(vCf_FFT_a(3:1:length(vCf_FFT_a)/2))).^2))
 
 
 figure(3)
@@ -333,11 +343,14 @@ for kkk = 1:30
 end
 axis([0,30,-60,0])
 
-legend([h31,h32],{'with PRs','without PRs'},'Location','NorthEast')
 xlabel('harmonic number'),ylabel('amplitude [dB]')
-
 set(gca,'FontSize', myFontSize);
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
+
+hleg1 = legend([h31,h32],{'PR','no PR'},'Location','NorthEast')
+set(hleg1,'Interpreter','latex')
+set(gca,'fontsize',6)
+
 matlabfrag('steady_state_harmonics')
 movefile('steady_state_harmonics.*', '../fig', 'f')
  
