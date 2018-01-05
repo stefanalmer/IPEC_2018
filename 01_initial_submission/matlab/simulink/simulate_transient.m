@@ -88,6 +88,18 @@ lam5_pr = 294.1350;
 lam7_pr = 969.2109;
 lam9_pr = 1e-3;
 
+% opt. with new LQR gain and two PRs
+lam1_pr = 328.9629;
+lam3_pr = 781.0001;
+lam5_pr = 0;
+lam7_pr = 0;
+lam9_pr = 0;
+% opt. with new LQR gain and two PRs
+lam1_pr = 201.1867;
+lam3_pr = 409.8555;
+lam5_pr = 346.3558;
+lam7_pr = 640.0204;
+ 
 LQR_control_design
 
 
@@ -235,6 +247,7 @@ hleg1 = legend([h11,h12],{'PR','no PR'},'Location','SouthEast')
 set(hleg1,'Interpreter','latex')
 set(gca,'fontsize',6)
  
+break
 
 set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 

@@ -92,6 +92,18 @@ lam5_pr = 294.1350;
 lam7_pr = 969.2109;
 lam9_pr = 1e-3;
 
+% opt. with new LQR gain and two PRs
+lam1_pr = 328.9629;
+lam3_pr = 781.0001;
+lam5_pr = 0;
+lam7_pr = 0;
+lam9_pr = 0;
+% opt. with new LQR gain and two PRs
+lam1_pr = 201.1867;
+lam3_pr = 409.8555;
+lam5_pr = 346.3558;
+lam7_pr = 640.0204;
+
 LQR_control_design
 
     % --- run simulations -----------------------------------
@@ -293,8 +305,8 @@ hleg1 = legend([h11,h12],{'PR','no PR'},'Location','SouthEast')
 set(hleg1,'Interpreter','latex')
 set(gca,'fontsize',6)
 
-matlabfrag('steady_state_vCf')
-movefile('steady_state_vCf.*', '../fig', 'f')
+%matlabfrag('steady_state_vCf')
+%movefile('steady_state_vCf.*', '../fig', 'f')
 
 
 
@@ -324,8 +336,8 @@ hleg1 = legend([h21,h22],{'PR','no PR'},'Location','SouthEast')
 set(hleg1,'Interpreter','latex')
 set(gca,'fontsize',6)
 
-matlabfrag('steady_state_iLoad')
-movefile('steady_state_iLoad.*', '../fig', 'f')
+%matlabfrag('steady_state_iLoad')
+%movefile('steady_state_iLoad.*', '../fig', 'f')
  
 
 vCf_FFT_a = fft(vCf_vec_per_a)/length(vCf_vec_per_a);
@@ -351,8 +363,8 @@ hleg1 = legend([h31,h32],{'PR','no PR'},'Location','NorthEast')
 set(hleg1,'Interpreter','latex')
 set(gca,'fontsize',6)
 
-matlabfrag('steady_state_harmonics')
-movefile('steady_state_harmonics.*', '../fig', 'f')
+%matlabfrag('steady_state_harmonics')
+%movefile('steady_state_harmonics.*', '../fig', 'f')
  
 
 
