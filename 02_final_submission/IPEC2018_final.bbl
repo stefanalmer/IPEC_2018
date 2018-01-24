@@ -1,0 +1,82 @@
+\begin{thebibliography}{10}
+
+\bibitem{almer2009harmonic}
+S.~Alm{\'e}r and U.~J{\"o}nsson.
+\newblock Harmonic analysis of pulse-width modulated systems.
+\newblock {\em Automatica}, 45(4):851--862, 2009.
+
+\bibitem{924769}
+P.~Mattavelli.
+\newblock {Synchronous-Frame Harmonic Control for High-Performance AC Power
+  Supplies}.
+\newblock {\em IEEE Transactions on Industry Applications}, 37(3):864--872, May
+  2001.
+
+\bibitem{4270758}
+E.~Demirkutlu, S.~Cetinkaya, and A.~M. Hava.
+\newblock {Output Voltage Control of A Four-Leg Inverter Based Three-Phase UPS
+  by Means of Stationary Frame Resonant Filter Banks}.
+\newblock In {\em 2007 IEEE International Electric Machines Drives Conference},
+  volume~1, pages 880--885, May 2007.
+
+\bibitem{6408064}
+M.~Monfared, S.~Golestan, and J.~M. Guerrero.
+\newblock {Analysis, Design, and Experimental Verification of a Synchronous
+  Reference Frame Voltage Control for Single-Phase Inverters}.
+\newblock {\em IEEE Transactions on Industrial Electronics}, 61(1):258--269,
+  Jan 2014.
+
+\bibitem{6153368}
+A.~Vidal, F.~D. Freijedo, A.~G. Yepes, P.~Fernandez-Comesana, J.~Malvar,
+  O.~Lopez, and J.~Doval-Gandoy.
+\newblock {Assessment and Optimization of the Transient Response of
+  Proportional-Resonant Current Controllers for Distributed Power Generation
+  Systems}.
+\newblock {\em IEEE Transactions on Industrial Electronics}, 60(4):1367--1383,
+  April 2013.
+
+\bibitem{993175}
+X.~Yuan, W.~Merk, H.~Stemmler, and J.~Allmeling.
+\newblock {Stationary-Frame Generalized Integrators for Current Control of
+  Active Power Filters With Zero Steady-State Error for Current Harmonics of
+  Concern Under Unbalanced and Distorted Operating Conditions}.
+\newblock {\em IEEE Transactions on Industry Applications}, 38(2):523--532, Mar
+  2002.
+
+\bibitem{5398914}
+A.~G. Yepes, F.~D. Freijedo, J.~Doval-Gandoy, O.~Lopez, J.~Malvar, and
+  P.~Fernandez-Comesana.
+\newblock {Effects of Discretization Methods on the Performance of Resonant
+  Controllers}.
+\newblock {\em IEEE Transactions on Power Electronics}, 25(7):1692--1712, July
+  2010.
+
+\bibitem{989372}
+R.~A. Gannett, J.~C. Sozio, and D.~Boroyevich.
+\newblock {Application of Synchronous and Stationary Frame Controllers for
+  Unbalanced and Nonlinear Load Compensation in 4-Leg Inverters}.
+\newblock In {\em IEEE Applied Power Electronics Conference and Exposition
+  (APEC)}, volume~2, pages 1038--1043 vol.2, 2002.
+
+\bibitem{5338054}
+D.~G. Holmes, T.~A. Lipo, B.~P. McGrath, and W.~Y. Kong.
+\newblock {Optimized Design of Stationary Frame Three Phase AC Current
+  Regulators}.
+\newblock {\em IEEE Transactions on Power Electronics}, 24(11):2417--2426, Nov
+  2009.
+
+\bibitem{6870109}
+F.~O. Martinz, K.~C.~M. de~Carvalho, N.~R.~N. Ama, W.~Komatsu, and L.~Matakas.
+\newblock {Optimized Tuning Method of Stationary Frame Proportional Resonant
+  Current Controllers}.
+\newblock In {\em International Power Electronics Conference (IPEC - ECCE
+  ASIA)}, pages 2988--2995, May 2014.
+
+\bibitem{fukuda2001novel}
+S.~Fukuda and T.~Yoda.
+\newblock {A Novel Current-Tracking Method for Active Filters Based on a
+  Sinusoidal Internal Model}.
+\newblock {\em IEEE Transactions on Industry Applications}, 37(3):888--895,
+  2001.
+
+\end{thebibliography}

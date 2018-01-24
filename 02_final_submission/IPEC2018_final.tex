@@ -1,0 +1,504 @@
+\documentclass[conference,10pt]{IEEEtran}
+
+\usepackage[ansinew]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{graphicx}
+\usepackage{float}
+\usepackage{cite}
+%\usepackage{epsfig,psfrag}
+\usepackage{subfigure}
+\usepackage{yfonts}
+\usepackage{psfrag}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\eref}[1]{(\ref{#1})}
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+
+
+
+\def\rec{\rm rec}
+\def\inv{\rm inv}
+\def\iDC{$i_{\rm DC}$}
+\def\rot{A}
+
+\def\rmL{\ell}
+\def\rmC{{\rm c} }
+\def\rmd{\rm d}
+\def\rmo{\rm o}
+\def\rmp{\rm p}
+\def\rms{\rm s}
+\def\Ts{ T_{\rm s}}
+\def\Np{ N_{\rm p}}
+\def\rmDC{ {\rm dc}}
+
+\def\mA{\mathcal{A}}
+\def\mB{\mathcal{B}}
+\def\mC{\mathcal{C}}
+\def\mD{\mathcal{D}}
+\def\mF{\mathcal{F}}
+\def\mI{\mathcal{I}}
+\def\mL{\mathcal{L}}
+\def\mM{\mathcal{M}}
+\def\mQ{\mathcal{Q}}
+\def\mR{\mathcal{R}}
+\def\mU{\mathcal{U}}
+\def\mV{\mathcal{V}}
+\def\mW{\mathcal{W}}
+\def\mX{\mathcal{X}}
+
+\newlength{\mybox}
+\setlength{\mybox}{3.8cm}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+\newcommand{\legendevert}[1]{\rotatebox{90}{\fbox{\parbox{\mybox}{\centering #1}}}}
+\renewcommand{\legendevert}[1]{\rotatebox{90}{{\parbox{\mybox}{\centering #1}}}}
+\newlength{\myraiseh}
+\newcommand{\unitvert}[1]{\raisebox{\myraiseh}{\legendevert{\footnotesize{#1}}}}
+\def\refframe{{f}}
+\def\rotorrefframe{{r}}
+\def\statorrefframe{{s}}
+\newcommand{\rotor}{^{r}}
+\newcommand{\stator}{^{s}}
+
+\newcommand{\tb}[1]{\textcolor{red}{TB: #1}}
+
+
+\bibliographystyle{unsrt}
+
+
+
+%
+\ifCLASSINFOpdf
+
+v\else
+
+\fi
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\usepackage{color}	% required for `\textcolor' (yatex added)
+\usepackage[dvipdfmx]{graphicx}
+\graphicspath{{./fig/}}
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+
+
+\title{Model Based Tuning of Proportional Resonant Controllers for Voltage Source Inverters}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+
+\author{\IEEEauthorblockN{}
+\IEEEauthorblockA{ Stefan Alm{\'e}r, Thomas Besselmann and Mario Schweizer }
+\IEEEauthorblockE{ABB Corporate Research\\ 
+Segelhofstrasse lK, 5405 Baden-Dattwil, Aargau, SWITZERLAND\\
+Email: stefan.almer@ch.abb.com
+}}
+% author names go here
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+%
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3},
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+\maketitle
+
+
+\begin{abstract}
+The paper considers the optimal choice of gains of proportional-resonant controllers applied to control voltage source inverters. An inverter, controlled in closed loop, but without proportional resonant controllers, is modeled as a second order transfer function from reference to output. The system is augmented with proportional-resonant controllers by feeding the error between reference and output back through a set of $N$ proportional resonant controllers to subsequently alter the reference. The root locus of the closed loop system is considered as a function of the proportional-resonant gains. To find the optimal choice of gains, we maximize the damping of the mode with smallest damping. This corresponds to solving a nonlinear min-max problem. After linearization, the problem is stated as a linear program.
+\end{abstract}
+
+
+
+
+
+\IEEEpeerreviewmaketitle
+
+% ToFo
+% 1. description of approach at end ot abstract and introduction and ``\subsection{Closed Loop Poles}''
+% 2.
+
+\section{Introduction}
+Uninterruptible power source (UPS) systems are used in industrial processes in order to decouple loads partially from the grid. Short power outages are compensated and the load is supplied with a clean voltage waveform. Furthermore, UPS systems mitigate the injection of current harmonics to the utility grid that originate from high power non-linear loads.  Consequently, converters for UPS applications are required to have a very high output voltage quality even in presence of highly non-linear loads such as diode rectifiers.
+
+The system efficiency is a key aspect of such systems. Usually, very low semiconductor switching frequencies in the range of 2-4 kHz are employed in order to limit the switching losses and keep the efficiency high. Passive filter components such as inductors and capacitors are minimized such that further power losses are avoided. The filtering performance of these passive filters is usually poor for low order harmonics of non-linear loads. Therefore, the output voltage quality has to be ensured by means of proper control.
+
+Due to the low switching frequency, the closed loop voltage control bandwidth is limited and usually not sufficient to cope with non-linear loads~\cite{almer2009harmonic}. Additional means of compensating the voltage harmonics are required such as harmonic compensators tuned at the specific harmonic frequencies. Harmonic compensators can be implemented e.g. with proportional resonant (PR) controllers suggested in \cite{924769,4270758,6408064,6153368,993175,5398914,989372}.
+%---%\cite{6311438}
+
+Although the performance of proportional resonant controllers in compensating harmonics was investigated extensively, only few publications deal with the proper selection and tuning of the gains of the PR controllers. In \cite{5338054} and \cite{6870109} analytical parameter tuning rules are provided, but only for a system with a single PR controller tuned at the fundamental frequency. For systems containing several PR controllers tuned at the harmonic frequencies, approximate and empiric parameter tuning rules are given in \cite{924769} and \cite{6153368}. In \cite{5398914}, it is suggested to investigate the bode-plot of the open loop transfer function and design for phase margin. However, this approach should only be applied to closed-loop systems that can be represented as a second order system. Due to the introduction of the harmonic compensators, additional poles are introduced and the system is turned into a high order system. Designing for phase margin can lead to unexpected closed loop system behavior in that case.
+
+To Summarize, no systematic parameter tuning approach considering the interactions of the individual PR controllers and the impact on the damping of the resonant modes is given.
+
+In this paper, a method is presented to optimally choose the gains of the PR controllers: First the inverter is considered without PR controllers and the damping of the inverter is computed. We then decide on the amount of decrease of the damping, which is caused by the introduction of PRs, we can accept. We then maximize the damping of the least damped PR controller, while respecting that the damping of the inverter does not fall below the specified limit. This corresponds to solving a nonlinear min-max problem. After linearization, the problem is stated as a linear program which can be solved efficiently.
+
+
+The paper is outlined as follows:
+Section~\ref{sec:conmod}  introduces the model of the inverter and PR controllers.
+Section~\ref{sec:probform} formulates the PR gain design problem as an optimization problem, which is then approximated and solved in Section~\ref{sec:probapp}.
+The method is applied to a numerical example and evaluated in simulation in Section~\ref{sec:numex}.
+Finally, conclusion and outlook to further work are given
+in Section~\ref{sec:conc}.
+
+
+
+
+\section{Converter Model}
+\label{sec:conmod}
+%-----------------------------------------
+%\begin{figure}[!h]
+%\centering
+%\input{fig/VoltageSourceInverter.pstex_t}
+%\caption{Voltage source inverter connecting a DC link capacitance with an output LC filter.}
+%\label{fig:VoltageSourceInverter}
+%\end{figure}
+%-----------------------------------------
+
+Our starting point is to consider a voltage source inverter (VSI) which is assumed to operate in closed loop, but without PR controllers.  The controlled inverter is modeled as a second order transfer function which maps the (sinusoidal) reference to the output,
+\begin{align}
+\label{eq:InvMdl}
+y = G(s)y_{\rm ref},\quad G(s) = \frac{\omega^2}{s^2+\xi\omega s + \omega^2}\,,
+\end{align}
+where $\omega$ is the natural frequency and $\xi$ is the damping of the controlled inverter. One example of a system which can be modeled on the form~(\ref{eq:InvMdl}) is a VSI with LC filter, %as the one shown in Figure~\ref{fig:VoltageSourceInverter},
+controlled in abc frame by a cascaded voltage-current control system comprising proportional control.
+We note that, with properly designed control, a VSI is expected to behave as second order systems in closed loop. Thus, assuming a system model of the form~(\ref{eq:InvMdl}) is not restrictive.
+
+%The output voltage of voltage source inverters is generated by a frequent switching between different voltage levels on the DC side. The generated voltages can thus be described as piecewise constant voltages; the output voltage is finally obtained by low-pass filtering the piecewise constant voltage by means of LC circuits. The output voltage contains not only the requested reference voltage, but also harmonics.
+
+
+\subsection{Proportional-Resonant Control}
+
+To achieve offset free tracking of the sinusoidal reference $y_{\rm ref}$ and to reduce harmonics in the output, we consider adding PR controllers~\cite{fukuda2001novel} to the system~(\ref{eq:InvMdl}).
+The PR controllers are added in an outer loop (see Fig.~\ref{fig:ControlStructure}) and adjust the reference according to
+\begin{align*}
+\tilde{y}_{\rm ref} = y_{\rm ref} + \sum_{n\in\{1,3,5,\dots, N\}}H_n(s)(y_{\rm ref}-y)\,,
+\end{align*}
+where
+\begin{align*}
+H_n(s) = \frac{\lambda_ns}{s^2 + (n\omega_0)^2}\,,
+\end{align*}
+where the fundamental frequency $\omega_0$ is the frequency of the reference (typically 50 or 60 Hz), and where $\lambda_n$ are the feedback gains of the PR controllers. The gains $\lambda_n$ are tuning parameters which affect the transient response of the closed loop system.
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/ControlStructure.pstex_t}
+\caption{Control structure of converter model with PR controllers.}
+\label{fig:ControlStructure}
+\end{figure}
+%-----------------------------------------
+
+
+\subsection{Closed Loop System}
+
+The order of the closed loop system dynamics is $2+2N_{\rm PR}$ where $N_{\rm PR}$ is the number of PR controllers added in the outer loop. The resulting closed-loop system can be stated as
+\begin{align}\label{eq:ClosedLoopTF}
+  y = \frac{G(s)\big{(} I + \sum_n H_n(s)\big{)}}{I + G(s) \sum_n H_n(s)} y_{\rm ref}\,,
+\end{align}
+and by changing the gains $\lambda_n$, we influence the location of the poles and zeros of the closed-loop system.
+
+
+\subsection{Closed Loop Poles}
+The PR gains $\lambda_n$ affect the poles of the closed loop system. In the design approach outlined below, we seek to maximize the damping of the (complex) pole pair which has the lowest damping.
+
+To clarify the approach we consider an example: Consider the case where two PR controllers (with harmonics number $1$ and $3$) are included in the control loop. For this case the system has $6$ poles, and their position in the complex plane is determined by  two gains $\lambda_1$, $\lambda_3$.
+We enumerate different combinations of gains $\lambda_1$, $\lambda_3$ and plot the resulting poles on the complex plane; the result is shown in Fig.~\ref{fig:PoleExample}. In this figure we also plot the poles obtained when both gains are close to zero (blue circles), and the poles obtained with one particular choice of higher gains (red circles).
+
+From Fig.~\ref{fig:PoleExample} it can be seen that one pole pair moves to the right, closer to the imaginary axis (and unstable domain), while the other two pole pairs move left. For sufficiently high gains, one of the pole pairs turn into two purely real poles, one of which moves left and the other moves right, towards the unstable domain.
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/root_locus_2D.tex}
+\includegraphics{fig/root_locus_2D}
+\caption{Poles of the closed loop system with $N_{PR}=2$ PR controllers: The green points show poles for various combinations of gains $\lambda_1$,
+$\lambda_3$. Blue circles show the poles for low gains. Red circles show poles for high gains. }
+\label{fig:PoleExample}
+\end{figure}
+%-----------------------------------------
+
+Since changes in one gain affects all poles, it is not obvious how to choose the gains optimally. Increase in one particular gain may make one pole pair ``more stable'', but may have negative effects on another pole pair.
+
+
+
+
+\section{Problem Formulation}
+\label{sec:probform}
+To address the problem of how to choose the PR gains, we propose to formulate a max-min optimization problem: We first consider the damping of the transfer function $G$, representing the inverter without PR controllers. We decide on a bound on how much we can accept the damping to decrease, and we then maximize the damping of the least damped 
+mode of the PR controllers.
+
+Let $\alpha_0$ be the angle between the pole and the imaginary axis (assuming the pole is in the open left half plane) of the second order transfer function $G$ in~(\ref{eq:InvMdl}), i.e., $\alpha_0$ is the damping of the system without PRs in the loop;
+\begin{align*}
+\alpha_0 = \tan^{-1}(-{\rm real}(p_0) / {\rm imag}(p_0))
+\end{align*}
+where
+\begin{align*}
+p_0 = -\frac{\xi\omega}{2} + \sqrt{ \bigg{(} \frac{\xi\omega}{2}\bigg{)}^2- w^2}.
+\end{align*}
+Adding PRs to the control loop will inevitably 
+decrease the damping of $G$. We decide on the amount of decrease of damping we are willing to accept and define
+\begin{align*}
+\alpha_{\rm tol} =  \kappa\cdot\alpha_0
+\end{align*}
+where $\kappa \in (0,1)$.
+
+We now add the PRs to the control loop as illustrated in Fig.~\ref{fig:ControlStructure}. The number $\alpha_{\rm tol}$ is used as a bound on the damping of the mode corresponding to the second order transfer function in Fig.~\ref{fig:ControlStructure}.
+Denoting this damping $\alpha_1$, the problem we ideally want to solve is
+\begin{align}
+\label{eq:MaxMinProb}
+\begin{split}
+&\max_{\lambda_1,\lambda_3,\dots, \lambda_N}\min_{i\in \{2, \dots, i_{\rm max}\}} \alpha_i(\lambda_1,\lambda_3,\dots, \lambda_N)\\
+& \hspace{6mm} {s.t.} \hspace{23mm} \alpha_1(\lambda_1,\lambda_3,\dots, \lambda_N) \ge \alpha_{\rm tol}
+\end{split}
+\end{align}
+with $i_{\rm max} = (N+3)/2$. We note that the angles $\alpha_i$ are dependent on the PR gains $\lambda_n$, and that as the gains vary, different angles take on the role of being ``the least damped''.
+We also note that the gains also have to be chosen to keep the closed loop system stable.
+
+%For one combination of PR gains, the resulting dampings $\alpha_i$ are indicated in Figure~\ref{fig:PoleExample}.
+
+Figure~\ref{fig:DampingExample} shows $\min_{i\in\{1,2,3\}}\alpha_i$; the smallest damping of the three pole pairs as a function of the gains. High gains for both PR controllers push one pole into the right half plane, resulting in an unstable system.
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/root_locus_2D_in_3D.tex}
+\includegraphics{fig/root_locus_2D_in_3D}
+\caption{Minimum of the damping $\alpha_i$ of the pole pairs of the closed loop system with $N_{\rm PR}=2$ PR controllers as a function of the PR controller gains $\lambda_1$ and $\lambda_3$. The labels on the contour lines indicate damping in degrees.}
+\label{fig:DampingExample}
+\end{figure}
+%-----------------------------------------
+
+
+\section{Problem Approximation}
+\label{sec:probapp}
+To obtain a tractable optimization problem, we proceed to approximate $\alpha_i(\lambda_1,\lambda_3,\dots\lambda_N)$ with affine functions of the gains $\lambda_n$: That is, the angles are approximated by
+\begin{align}
+\label{eq:AngleApprox}
+\tilde{\alpha}_i(\lambda_1,\lambda_3,\dots, \lambda_N)
+= a_i^T\lambda + b_i
+\end{align}
+where
+%\begin{align*}
+$\lambda =
+\begin{bmatrix}
+\lambda_1 & \lambda_3 & \dots & \lambda_N
+\end{bmatrix}^T$
+%\end{align*}
+is a vector containing the gains and where $a_i\in\mathbb{R}^{N_{\rm PR}}$, $b_i\in\mathbb{R}$ are constant vectors obtained by a sampling and least squares fitting procedure:
+%\subsection{Lest Squares Fitting}
+
+Values of the angles $\alpha_i$ are sampled for a number of gain values $\lambda_j$; we thus obtain a set of sampling points 
+$\{\alpha_i(\lambda_j)\}_{j=1}^M, \, i=1,\dots, 2+2N_{\rm PR}$. The vectors $a_i$, $b_i$ are chosen to solve the least squares fitting problem
+\begin{align*}
+\min_{a_i,b_i}\sum_{j=1}^M\left(
+\alpha_i(\lambda_j) - (a_i^T\lambda_j + b_i)
+\right)^2.
+\end{align*}
+The problem above is an unconstrained quadratic problem which can be solved by soling a linear system of equations.
+
+
+
+
+
+By describing the angles in~(\ref{eq:MaxMinProb})
+with the approximation~(\ref{eq:AngleApprox}), we obtain a max-min problem with affine cost function:
+\begin{align}
+\label{eq:MaxMinProbApprox}
+\begin{split}
+&\max_{\lambda_1,\lambda_3,\dots, \lambda_N}\min_{i\in \{2, \dots, i_{\rm max}\}} a_i^T\lambda + b_i\\
+& \hspace{6mm} {s.t.} \hspace{23mm} a_1^T\lambda + b_1\ge \alpha_{\rm tol}
+\end{split}
+\end{align}
+ This problem can be equivalently formulated a linear program (LP) according to
+\begin{align}
+\label{eq:MaxMinProbLP}
+\min c^Tx,\quad {\rm s.t.} \quad Ax\le b
+\end{align}
+with matrices
+\begin{align*}
+A =
+\begin{bmatrix}
+0 & -a^T_1\\
+1 & -a^T_2\\
+ & \vdots \\
+1 & -a^T_{i_{\rm max}}
+\end{bmatrix},\quad
+b =
+\begin{bmatrix}
+b_1 - \alpha_\textrm{tol}\\
+b_2\\
+\vdots \\
+b_{i_{\rm max}}
+\end{bmatrix},\quad
+c =
+\begin{bmatrix}
+-1\\
+0\\
+\vdots \\
+0
+\end{bmatrix}.
+\end{align*}
+%{\bf Put derivation in appendix}
+Linear programs can be solved efficiently with readily available software.
+
+
+
+\section{Numerical Example}
+\label{sec:numex}
+The PR gain design approach outlined above was applied to a VSI with LC filter used in UPS applications.
+The VSI considered is a four-wire topology where the dynamics of the three phases are decoupled, due to the connection between filter and DC side neutral point. Because of the decoupling, we consider each of the three phases individually and design stabilizing controllers with proportional feedback. The closed loop system thus becomes a second order transfer function from voltage reference to output voltage on the form~(\ref{eq:InvMdl}).
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\psfrag{vg}{\footnotesize{$i_{\rm load}$}}
+\psfrag{x1}{\footnotesize{$i$}}
+\psfrag{x3}{\footnotesize{$v$}}
+\psfrag{Lfi}{\footnotesize{$L$}}
+\psfrag{Cf}{\footnotesize{$C$}}
+\psfrag{vdc/2}{\footnotesize{$v_{\rm dc}/2$}}
+\psfrag{+}{\tiny{$+$}}
+\scalebox{0.9}{
+\input{fig/VSC_LC_3ph.pstex_t}
+}
+%\includegraphics[width=8cm]{fig/VSC_LC_3ph}
+\caption{Voltage source inverter with LC filter.}
+\label{fig:UPS_LC}
+\end{figure}
+%-----------------------------------------
+
+The inner control loop is augmented with $N_{\rm PR} = 4$ PR controllers as described in Fig.~\ref{fig:ControlStructure}. We thus have five
+angles $\alpha_i$ which are functions of four gains
+$\lambda_i$. The nonlinear functions $\alpha_i$ are sampled over a grid of gain values and a linear approximation of the nonlinear functions is made by least squares fitting. We choose the parameter $\kappa = 0.9$ and thus allow for a $10\%$ decrease of  damping;
+\begin{align*}
+\alpha_{\rm tol} = 0.9\cdot\alpha_0.
+\end{align*} 
+The resulting LP~(\ref{eq:MaxMinProbApprox}) is solved. The optimal solution (in per unit) is
+\begin{align*}
+& \lambda_{1,\textrm{opt}} = 0.34, \,
+& \lambda_{2,\textrm{opt}} = 1.04, \,
+& \lambda_{3,\textrm{opt}} = 1.16, \,
+& \lambda_{4,\textrm{opt}} = 1.33.
+\end{align*} 
+We note that the gain increase for higher order PRs.
+ 
+    
+The poles of the system, using the optimal gains, is shown by the red circles in Fig.~\ref{fig:PolesOptimalExample}. The red lines 
+illustrate the limit $\alpha_{\rm tol}$ and the optimal solution value $\alpha_{\rm opt}$ of the LP~(\ref{eq:MaxMinProbApprox}).
+
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/root_locus_b.tex}
+\includegraphics{fig/root_locus_b}
+%\input
+%\includegraphics{fig/root_locus_b}
+\caption{Poles of the closed loop system with $N_{PR}=4$ PR controllers: The green points show poles for various combinations of gains $\lambda_1$, $\lambda_3$, $\lambda_5$ and $\lambda_7$. Red circles show poles for the optimal gains.}
+\label{fig:PolesOptimalExample}
+\end{figure}
+%-----------------------------------------
+
+
+The system is simulated with a nonlinear load; a diode rectifier bridge. The dynamic response and the steady state behavior with and without PR controllers is evaluated in simulation. All values are in per unit.
+
+When the system is at steady state the load is switched out. The transient response of the output voltage is shown in Fig.~\ref{fig:trans_vc}. It can be seen that the introduction of the PR controllers (blue line) only causes minor changes in the transient peak value. However, the PRs introduce a slow oscillation which takes two grid periods to damp out.
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/transient_vCf.tex}
+\includegraphics{fig/transient_vCf}
+\caption{Transient response of the output voltage when the load (a diode rectifier bridge) is switched out.}
+\label{fig:trans_vc}
+\end{figure}
+%-----------------------------------------
+
+The steady state output voltage and load current are shown in Fig.~\ref{fig:ss_vc} and \ref{fig:ss_iload}. The harmonics of the steady state voltage are shown in Fig.~\ref{fig:ss_harm}. Both figures verify that the PR controllers result in closer tracking of the sinusoidal reference, 
+as well as reduction of harmonic content. From Fig.~\ref{fig:ss_harm}, it can be seen that the PR controllers (blue circles) reduce the third, fifth and seventh harmonics to less than $-60$ dB.
+Without the PR controllers, the THD is $6.2 \%$. Adding the PR controllers reduces the THD to $2.7 \%$.
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/steady_state_vCf.tex}
+\includegraphics{fig/steady_state_vCf}
+\caption{Steady state output voltage with diode rectifier bridge as load.}
+\label{fig:ss_vc}
+\end{figure}
+%-----------------------------------------
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/steady_state_iLoad.tex}
+\includegraphics{fig/steady_state_iLoad}
+\caption{Steady state load current of phase a with diode rectifier bridge as load.}
+\label{fig:ss_iload}
+\end{figure}
+%-----------------------------------------
+%-----------------------------------------
+\begin{figure}[!h]
+\centering
+\input{fig/steady_state_harmonics.tex}
+\includegraphics{fig/steady_state_harmonics}
+\caption{Harmonics of the steady state output voltage with diode rectifier bridge as load.}
+\label{fig:ss_harm}
+\end{figure}
+%-----------------------------------------
+
+%-----------------------------------------
+%\begin{figure}[!h]
+%\centering
+%\input{fig/steady_state_harmonics_linear.tex}
+%\includegraphics{fig/steady_state_harmonics_linear}
+%\caption{Harmonics of the steady state output voltage with %diode rectifier bridge as load.}
+%\label{fig:ss_harm}
+%\end{figure}
+%-----------------------------------------
+
+
+
+
+\section{Conclusions}
+\label{sec:conc}
+
+The design of PR gains was formulated as a min/max optimization problem: The inverter, without PR controllers, was modeled as a second order transfer function. It is noted that the damping of this transfer function is inevitably decreased by the introduction of 
+PR controllers. We decide on a limit on how much we are willing to decrease the damping, and maximize the damping of the PR controllers, while respecting the bound on the decrease of damping of hte original transfer function. This problem is approximated as a linear program which can be solved efficiently.
+The method is verified in simulation.
+  
+
+
+
+
+\bibliography{IPECrefs}
+
+% that's all folks
+\end{document}
+
+
