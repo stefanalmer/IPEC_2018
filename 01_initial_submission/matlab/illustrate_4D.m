@@ -104,10 +104,10 @@ end
 
 
 %%% Plot blue circles for small PR gains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%L1 = 1;
-%L3 = 1;
-%L5 = 1;
-%L7 = 1;
+%L1 = 1e-2;
+%L3 = 1e-2;
+%L5 = 1e-2;
+%L7 = 1e-2;
 
 %den = [ 1;
 %    a ;
@@ -122,14 +122,23 @@ end
 %    b*w1^2*w3^2*w5^2*w7^2  ];
 
 %rot = roots(den);
-%plot(rot, 'bo')
+%plot(rot(1:2), 'bo')
+
 
 
 %%% Plot poles for optimal PR gains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-opt_gains = [  111.1867;
-    313.8555;
-    344.3558;
-    690.0204];
+%opt_gains = [  111.1867;
+%    313.8555;
+%    344.3558;
+%    690.0204];
+% opt sol corr to 10% damping reduction
+opt_gains = [111.0940;
+  338.2140;
+  377.6360;
+  432.8740];
+
+% pu scaling factor 325.2691
+opt_gains_pu = opt_gains / 325.2691 
 
 %opt_gains = [263.0489;
 % 600.0000; 
@@ -157,11 +166,32 @@ den = [ 1;
 rot = roots(den);
 plot(rot, 'ro')
 
+%break
 
 % plot connections to zero
 plot([0,real(rot(1))], [0,imag(rot(1))], 'r')
 plot([0,real(rot(2))], [0,imag(rot(2))], 'r')
-axis([-2500, 100, -8000, 8000])
+plot([0,real(rot(3))], [0,imag(rot(3))], 'r')
+plot([0,real(rot(4))], [0,imag(rot(4))], 'r')
+axis([-2500, 300, -8000, 8000])
+
+txt = '$\alpha_{opt}$';
+text(20, 300, txt, 'FontSize', myFontSize)
+alpha = atan(-real(rot(1))/imag(rot(1)));
+thvec = 0:0.01:alpha;
+V1 = 300*cos(thvec + pi/2);
+V2 = 300*sin(thvec + pi/2);
+plot(V1, V2, 'r')
+
+
+txt = '$\alpha_{tol}$';
+text(20, 1000, txt, 'FontSize', myFontSize)
+alpha = atan(-real(rot(1))/imag(rot(1)));
+thvec = 0:0.01:alpha;
+V1 = 600*cos(thvec + pi/2);
+V2 = 600*sin(thvec + pi/2);
+plot(V1, V2, 'r')
+
 
 xlabel('Real Axis')
 ylabel('Imaginary Axis')
@@ -170,6 +200,6 @@ set(findall(gcf, '-property', 'FontSize'), 'FontSize', myFontSize)
 
 
 if (FB=='y' | FB=='Y')
-    matlabfrag('root_locus')
-    movefile('root_locus.*', '../fig', 'f')
+    matlabfrag('root_locus_b')
+    movefile('root_locus_b.*', '../fig', 'f')
 end
